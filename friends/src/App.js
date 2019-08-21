@@ -4,41 +4,32 @@ import './App.css';
 import { Route, Link } from 'react-router-dom'
 import LoginForm from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
-import FriendMap from './components/FriendMap';
+import FormikFriendMap from './components/FriendMap';
+
+import axios from 'axios';
 
 class App extends React.Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
-      friendList: {},
-      username: '',
-      password: '',
-      isLoading: false
+      friendList: {}
     }
   }
 
-submitHandler = e => {
-  e.preventDefault()
-}
 
-changeHandler = e => {
-  console.log('typing', e)
-  this.setState({[e.target.name]: e.target.value})
-}
 
   render(){
     return (
       <div className="App">
-        <PrivateRoute path='/friendlist'
-          render={props =>
-          <FriendMap friendList={this.state.friendList}/>} />
-        <Route path='/login' render={props =>
-          <LoginForm
-            username={this.state.username}
-            password={this.state.password}
-            submitHandler={this.submitHandler}
-            changeHandler={this.changeHandler}
-            isLoading={this.isLoading}/>}/>
+          <div>
+            <Link to='/friendlist'>Friends!</Link>
+          </div>
+          <div>
+            <Link to='/login'>Log In</Link>
+          </div>
+        <PrivateRoute exact path='/friendlist'
+          component={FormikFriendMap} />
+        <Route exact path='/login' component={LoginForm}/>
       </div>
     );
   }
